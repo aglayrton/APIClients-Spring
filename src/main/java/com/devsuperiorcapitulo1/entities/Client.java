@@ -18,14 +18,17 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String name;
 	
 	@CPF(message =  "Informe o cpf valido")
 	private String cpf;
+	
 	private Double income;
 	
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant birthDate;
+	
 	private Integer children;
 	
 	public Client() {
