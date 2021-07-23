@@ -1,5 +1,6 @@
 package com.devsuperiorcapitulo1.entities;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import javax.persistence.Column;
@@ -13,8 +14,10 @@ import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "tb_client")
-public class Client {
+public class Client implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
