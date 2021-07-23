@@ -1,0 +1,46 @@
+package com.devsuperiorcapitulo1.exception;
+
+import java.time.Instant;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.devsuperiorcapitulo1.service.exception.DatabaseException;
+import com.devsuperiorcapitulo1.service.exception.ResourceNotFoundException;
+
+@RestControllerAdvice
+public class ResourceExceptionHandler {
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<StandarError> entityNotFound(ResourceNotFoundException e, HttpServletRequest req){
+		StandarError err =  new StandarError();
+		
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.NOT_FOUND.value());
+		err.setError("Resource not found");
+		err.setMessage(e.getMessage());
+		err.setPath(req.getRequestURI());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+	}
+	
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandarError> entityNotDatabase(DatabaseException e, HttpServletRequest req){
+		StandarError err =  new StandarError();
+		HttpStatus http = HttpStatus.BAD_REQUEST;
+		
+		err.setTimestamp(Instant.now());
+		err.setStatus(http.value());
+		err.setError("Database exception");
+		err.setMessage(e.getMessage());
+		err.setPath(req.getRequestURI());
+		
+		
+		return new ResponseEntity<StandarError>(err, http);
+	}
+	
+}

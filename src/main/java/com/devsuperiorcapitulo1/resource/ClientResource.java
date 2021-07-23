@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class ClientResource {
 	private ClientService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ClientDto>> list(
+	public ResponseEntity<Page<ClientDto>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linePerPage", defaultValue = "10") Integer linePerPage,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
@@ -32,4 +33,9 @@ public class ClientResource {
 		return ResponseEntity.ok().body(clientDto);
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<ClientDto> findById(@PathVariable("id") Long id){
+		ClientDto clientDto = service.findById(id);
+		return ResponseEntity.ok().body(clientDto);
+	}
 }
