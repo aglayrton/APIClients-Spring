@@ -24,7 +24,6 @@ public class Client implements Serializable{
 	
 	private String name;
 	
-	@CPF(message =  "Informe o cpf valido")
 	private String cpf;
 	
 	private Double income;

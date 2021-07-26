@@ -14,33 +14,32 @@ import com.devsuperiorcapitulo1.service.exception.ResourceNotFoundException;
 
 @RestControllerAdvice
 public class ResourceExceptionHandler {
-	
+
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<StandarError> entityNotFound(ResourceNotFoundException e, HttpServletRequest req){
-		StandarError err =  new StandarError();
-		
+	public ResponseEntity<StandarError> entityNotFound(ResourceNotFoundException e, HttpServletRequest req) {
+		StandarError err = new StandarError();
+
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.NOT_FOUND.value());
 		err.setError("Resource not found");
 		err.setMessage(e.getMessage());
 		err.setPath(req.getRequestURI());
-		
+
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
-	
+
 	@ExceptionHandler(DatabaseException.class)
-	public ResponseEntity<StandarError> entityNotDatabase(DatabaseException e, HttpServletRequest req){
-		StandarError err =  new StandarError();
+	public ResponseEntity<StandarError> entityNotDatabase(DatabaseException e, HttpServletRequest req) {
+		StandarError err = new StandarError();
 		HttpStatus http = HttpStatus.BAD_REQUEST;
-		
+
 		err.setTimestamp(Instant.now());
 		err.setStatus(http.value());
 		err.setError("Database exception");
 		err.setMessage(e.getMessage());
 		err.setPath(req.getRequestURI());
-		
-		
+
 		return new ResponseEntity<StandarError>(err, http);
 	}
-	
+
 }
